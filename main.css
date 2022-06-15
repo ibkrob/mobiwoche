@@ -50,3 +50,19 @@ footer {
 footer nav {
     display: inline-block;
 }
+
+.leaflet-control-coordinates {
+	background: white;
+	border-radius: 4px;
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);
+	cursor: pointer;
+	padding: 2px 5px;
+}
+
+.leaflet-control-coordinates.hidden {
+	display: none;
+}
+
+.leaflet-control-coordinates-lng {
+	padding-left: 5px;
+}

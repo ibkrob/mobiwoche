@@ -1,0 +1,35 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Leaflet Coordinates Control</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://d19vzq90twjlae.cloudfront.net/leaflet-0.7.3/leaflet.css" />
+<link rel="stylesheet" href="Control.Coordinates.css" />
+</head>
+<body>
+<div id="map" style="width: 600px; height: 400px"></div>
+<script src="https://d19vzq90twjlae.cloudfront.net/leaflet-0.7.3/leaflet.js"></script>
+<script src="Control.Coordinates.js"></script>
+<script>
+
+		var map = L.map('map').setView([51.505, -0.09], 13);
+
+		L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+			maxZoom: 18,
+			attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>'
+		}).addTo(map);
+
+		var c = new L.Control.Coordinates();
+		c.addTo(map);
+
+		function onMapClick(e) {
+			c.setCoordinates(e);
+		}
+
+		map.on('click', onMapClick);
+
+	</script>
+</body>
+</html>
