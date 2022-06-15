@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html ng-app="demoapp">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="http://tombatossals.github.io/angular-leaflet-directive/bower_components/angular/angular.min.js"></script>
+    <script src="http://tombatossals.github.io/angular-leaflet-directive/bower_components/leaflet/dist/leaflet.js"></script>
+    <script src="http://tombatossals.github.io/angular-leaflet-directive/dist/angular-leaflet-directive.min.js"></script>
+    <script src="http://tombatossals.github.io/angular-leaflet-directive/bower_components/leaflet.draw/dist/leaflet.draw.js"></script>
+    <link rel="stylesheet" href="http://tombatossals.github.io/angular-leaflet-directive/bower_components/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="http://tombatossals.github.io/angular-leaflet-directive/bower_components/leaflet.draw/dist/leaflet.draw.css" />
+    <script>
+        var app = angular.module("demoapp", ["leaflet-directive"]);
+        app.controller("ControlsDrawController", ["$scope", "leafletData", function($scope, leafletData) {
+            $scope.savedItems = [{
+                "id": 721,
+                "geoJSON": {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [-0.626220703125,
+                            48.1367666796927
+                        ]
+                    }
+                }
+            }, {
+                "id": 724,
+                "geoJSON": {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [-0.274658203125,
+                            49.13859653703879
+                        ]
+                    }
+                }
+            }, {
+                "id": 725,
+                "geoJSON": {"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[-18.10546875,53.38332836757156],[-10.107421874999998,55.92458580482951],[-3.33984375,53.9560855309879],[-10.634765625,47.635783590864854],[-17.2265625,45.767522962149904],[-18.10546875,53.38332836757156]]]}} 
+            }];
+            var drawnItems = new L.FeatureGroup();
+            for (var i = 0; i < $scope.savedItems.length; i++) {
+                L.geoJson($scope.savedItems[i].geoJSON, {
+                    style: function(feature) {
+                        return {
+                            color: '#bada55'
+                        };
+                    },
+                  onEachFeature: function (feature, layer) {
+                    drawnItems.addLayer(layer);
+                  }
+                });
+            }
+            angular.extend($scope, {
+                london: {
+                    lat: 51.505,
+                    lng: -0.09,
+                    zoom: 4
+                },
+                controls: {
+                    draw: {},
+                    edit: {
+                        featureGroup: drawnItems
+                    }
+                }
+            });
+            leafletData.getMap().then(function(map) {
+                var drawnItems = $scope.controls.edit.featureGroup;
+                // Init the map with the saved elements
+                var printLayers = function () {
+                    console.log("After: ");
+                    map.eachLayer(function(layer) {
+                        console.log(layer);
+                    });             
+                };
+                drawnItems.addTo(map);
+                printLayers();
+                map.on('draw:created', function(e) {
+                    var layer = e.layer;
+                    drawnItems.addLayer(layer);
+                    console.log(JSON.stringify(layer.toGeoJSON()));
+                    $scope.savedItems.push({
+                        id: layer._leaflet_id,
+                        geoJSON: layer.toGeoJSON()
+                    });
+                });
+                map.on('draw:edited', function(e) {
+                    var layers = e.layers;
+                    layers.eachLayer(function(layer) {
+
+                        for (var i = 0; i < $scope.savedItems.length; i++) {
+                            if ($scope.savedItems[i].id == layer._leaflet_id) {
+                                $scope.savedItems[i].geoJSON = layer.toGeoJSON();
+                            }
+                        }
+                    });
+                });
+
+                map.on('draw:deleted', function(e) {
+                    var layers = e.layers;
+                    layers.eachLayer(function(layer) {
+                        for (var i = 0; i < $scope.savedItems.length; i++) {
+                            if ($scope.savedItems[i].id == layer._leaflet_id) {
+                                $scope.savedItems.splice(i, 1);
+                            }
+                        }
+                    });
+                });
+            });
+        }]);
+    </script>
+    <style>
+        input {
+            width: 120px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+
+<body ng-controller="ControlsDrawController">
+    <leaflet center="london" controls="controls" width="100%" height="400"></leaflet>
+    <h1>Draw control example</h1>
+    <p>Draw a shape and a geoJSON data structure will be shown on the console.log.</p>
+</body>
+
+</html>
