@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset=utf-8>
+		<meta name=description content="">
+		<meta name=viewport content="width=device-width, initial-scale=1">
+		<title>Jquery Comments Plugin</title>
+
+		<!-- Styles -->
+		<link rel="stylesheet" type="text/css" href="css/jquery-comments.css">
+		<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+		<!-- Data -->
+		<script type="text/javascript" src="data/comments-data.js"></script>
+
+		<script src="https://d19vzq90twjlae.cloudfront.net/leaflet-0.7.3/leaflet.js"></script>
+		<script src="Control.Coordinates.js"></script>
+		
+
+		<!-- Libraries -->
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.textcomplete/1.8.0/jquery.textcomplete.js"></script>
+		<script type="text/javascript" src="js/jquery-comments.js"></script>
+
+
+	</head>
+	<body>
+			<div id="map" style="width: 600px; height: 400px"></div>
+			<script>
+			
+					var map = L.map('map').setView([47.4916945, 11.0954984], 13);
+			
+					L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+						maxZoom: 18,
+						attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>'
+					}).addTo(map);
+			
+					var c = new L.Control.Coordinates();
+					c.addTo(map);
+			
+					function onMapClick(e) {
+						c.setCoordinates(e);
+					}
+			
+					map.on('click', onMapClick);
+			
+			
+					
+				</script>
+
+				<div></div>
+
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+</body>
+<footer><div id="comments-container"></div></footer>
+		
+	</body>
+</html>
