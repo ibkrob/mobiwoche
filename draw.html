@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="http://tombatossals.github.io/angular-leaflet-directive/bower_components/leaflet/dist/leaflet.css" />
     <link rel="stylesheet" href="http://tombatossals.github.io/angular-leaflet-directive/bower_components/leaflet.draw/dist/leaflet.draw.css" />
     <script>
+        
         var app = angular.module("demoapp", ["leaflet-directive"]);
         app.controller("ControlsDrawController", ["$scope", "leafletData", function($scope, leafletData) {
             $scope.savedItems = [{
@@ -119,6 +120,16 @@
 
 <body ng-controller="ControlsDrawController">
     <leaflet center="london" controls="controls" width="100%" height="500"></leaflet>
+    <header>
+        <img class="banner" src="icons/Header_EM_Figuren.jpg" height="200" href="https://lra-gap.de/de/europaeische-mobilitaetswoche.html"
+            alt="Mobilitätswoche.">
+    </header>
+    <article>
+        <h1> Mobilitätswoche 2022 </h1>
+        <h2>Vom 16. bis 22. September</h2>
+        <p> <strong>Seid dabei! </strong>
+            <br>
+__________________________________________________________________________________________________
     <h1>Zeichen-Beispiel</h1>
     <p>Zeichne eine Form in die Karte und kopiere die geoJSON-Datei aus der console.log (F12).</p>
 </body>
